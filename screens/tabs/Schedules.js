@@ -1,36 +1,58 @@
-import { StyleSheet } from 'react-native'
-import React, { useEffect, useState } from 'react'
-import { Colors, Text, View } from 'react-native-ui-lib'
-import moment from 'moment'
-import { FontAwesome5 } from '@expo/vector-icons'
-import axios from 'axios'
-import AsyncStorage from '@react-native-async-storage/async-storage'
+import { StyleSheet } from "react-native";
+import React, { useEffect, useState } from "react";
+import { Colors, Text, View } from "react-native-ui-lib";
+import moment from "moment";
+import { FontAwesome5 } from "@expo/vector-icons";
+import axios from "axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function Schedules() {
-  const [schedules, setSchedule] = useState([])
+  const [schedules, setSchedule] = useState([]);
 
   useEffect(() => {
-    getSchedules()
-  }, [])
+    getSchedules();
+  }, []);
 
   const getSchedules = async () => {
-    const id = await AsyncStorage.getItem('user_id')
-    const patientID = JSON.parse(id)
+    const id = await AsyncStorage.getItem("user_id");
+    const patientID = JSON.parse(id);
 
     axios
       .get(`${BASE_API}schedules?id=${patientID}`)
       .then((response) => {
-        setSchedule(response.data)
-        console.log(response.data)
+        setSchedule(response.data);
+        console.log(response.data);
       })
       .catch((error) => {
-        console.log(error)
-      })
+        console.log(error);
+      });
+  };
+
+  const getDay = (day) => {
+    const days = {
+      1: "Monday",
+      2: "Tuesday",
+      3: "Wednesday",
+      4: "Thursday",
+      5: "Friday",
+      6: "Saturday",
+      7: "Sunday",
+    };
+
+    return days[day];
+  };
+
+  const getStatus = (status)=>{
+    if(status==1){
+      return 'accepted'
+    }else{
+      return 'Rejected'
+    }
   }
 
   return (
     <View style={styles.container}>
-      {schedules != '' ? (
+      {schedules != "" ? (
         schedules.map((item, index) => {
           return (
             <View
@@ -39,35 +61,35 @@ export default function Schedules() {
               backgroundColor={Colors.blue80}
             >
               <View>
-                <Text text70>{item.dentist.name}</Text>
+                <Text text70 blue10>{item.dentist_schedule.dentist.name}</Text>
                 <Text text90 color={Colors.grey40}>
-                  {item.title}
+                  Appointment {getStatus(item.status)}
                 </Text>
               </View>
               <View>
-                <Text text90 color={Colors.purple10}>
-                  <FontAwesome5
-                    name="calendar"
-                    style={{ marginRight: 10 }}
-                  ></FontAwesome5>
-                  <Text>
-                    {' '}
-                    {moment(new Date(item.schedule_date)).format('DD-MM-YYYY')}
+                <Text text90 color={Colors.blue10}>
+                  <FontAwesome5 name="calendar"></FontAwesome5>
+                  <Text style={{ marginLeft: 10 }}>
+                  {"  "}
+                    {getDay(item.dentist_schedule.dayOfWeek)}
                   </Text>
                 </Text>
-                <Text text90 color={Colors.purple10}>
+                <Text text90 color={Colors.blue10}>
                   <FontAwesome5 name="clock"></FontAwesome5>
-                  <Text style={{ marginLeft: 5 }}> {item.schedule_time}</Text>
+                  <Text style={{ marginLeft: 5 }}>
+                    {" "}
+                    {`${item.dentist_schedule.startTime}-${item.dentist_schedule.endTime}`}
+                  </Text>
                 </Text>
               </View>
             </View>
-          )
+          );
         })
       ) : (
         <View
           backgroundColor={Colors.yellow70}
           padding-20
-          style={{ alignItems: 'center' }}
+          style={{ alignItems: "center" }}
         >
           <Text style={{ fontSize: 20 }} color={Colors.yellow1}>
             No service available
@@ -75,7 +97,7 @@ export default function Schedules() {
         </View>
       )}
     </View>
-  )
+  );
 }
 
 const styles = StyleSheet.create({
@@ -87,7 +109,7 @@ const styles = StyleSheet.create({
   card: {
     padding: 20,
     borderRadius: 10,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    justifyContent: "space-between",
   },
-})
+});

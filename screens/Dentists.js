@@ -4,8 +4,9 @@ import { ListItem, Colors, Card, Text, View } from 'react-native-ui-lib'
 import axios from 'axios'
 import Spinner from 'react-native-loading-spinner-overlay/lib'
 import { FontAwesome5 } from '@expo/vector-icons'
+import { TouchableOpacity } from 'react-native'
 
-export default function Dentists() {
+export default function Dentists({navigation}) {
   const [dentists, setDentists] = useState([])
 
   useEffect(() => {
@@ -28,11 +29,12 @@ export default function Dentists() {
       {dentists != '' ? (
         dentists.map((item, index) => {
           return (
-            <Card
+            <TouchableOpacity key={index} onPress={()=>navigation.navigate('DentistSchedule', {item:item})}>
+              <Card
               backgroundColor={Colors.white}
               style={{ marginBottom: 15, flexDirection: 'row' }}
               padding-10
-              key={index}
+              
             >
               <View
                 style={styles.avatarContainer}
@@ -53,6 +55,7 @@ export default function Dentists() {
                 </View>
               </View>
             </Card>
+            </TouchableOpacity>
           )
         })
       ) : (

@@ -48,8 +48,9 @@ export default function CreateAppointment() {
     setDayOfWeek(t);
     setSpinner(true);
     axios
-      .get(`${BASE_API}get-time?dow=${dayOfWeek}`)
+      .get(`${BASE_API}get-time?dow=${t}`)
       .then((response) => {
+        // console.log(response.data);
         setSchedule(response.data);
         setSpinner(false);
       })
@@ -57,6 +58,15 @@ export default function CreateAppointment() {
         console.log(error);
         setSpinner(false);
       });
+  };
+
+  const statusHandler = (status) => {
+    if (status == 0) {
+      return true;
+    } else {
+      return false;
+    }
+    console.log(status);
   };
 
   const createAppointment = async () => {
@@ -171,8 +181,9 @@ export default function CreateAppointment() {
             <RadioButton
               key={item.id}
               value={item.id}
-              label={`${item.startTime} - ${item.endTime}`}
+              label={`${item.start} - ${item.end}`}
               style={{ marginBottom: 3 }}
+              disabled={statusHandler(item.status)}
             />
           );
         })}
