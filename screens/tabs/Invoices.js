@@ -17,10 +17,10 @@ export default function Invoices({ navigation }) {
   const getSum = (array) => {
     var sum = 0
     array.forEach((element) => {
-      return (sum += element.amount)
+      return (sum += parseFloat(element.amount))
     })
 
-    return sum.toLocaleString('en-US')
+    return sum.toFixed(2);
   }
 
   const getInvoices = async () => {

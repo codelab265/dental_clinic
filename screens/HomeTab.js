@@ -18,6 +18,7 @@ export default function HomeTab() {
         tabBarShowLabel: false,
         headerTitleAlign: 'center',
       }}
+      
     >
       <Tab.Screen
         name="Home"
@@ -39,6 +40,7 @@ export default function HomeTab() {
           ),
         }}
       />
+      
       <Tab.Screen
         name="Schedules"
         component={Schedules}
@@ -99,6 +101,7 @@ export default function HomeTab() {
           ),
         }}
       />
+      
     </Tab.Navigator>
   )
 }
