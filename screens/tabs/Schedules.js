@@ -1,6 +1,6 @@
 import { StyleSheet } from "react-native";
 import React, { useEffect, useState } from "react";
-import { Colors, Text, View } from "react-native-ui-lib";
+import { Card, Colors, Text, View } from "react-native-ui-lib";
 import moment from "moment";
 import { FontAwesome5 } from "@expo/vector-icons";
 import axios from "axios";
@@ -42,47 +42,54 @@ export default function Schedules() {
     return days[day];
   };
 
-  const getStatus = (status)=>{
-    if(status==1){
-      return 'accepted'
-    }else{
-      return 'Rejected'
+  const getStatus = (status) => {
+    if (status == 1) {
+      return "accepted";
+    } else {
+      return "Rejected";
     }
-  }
+  };
 
   return (
     <View style={styles.container}>
       {schedules != "" ? (
         schedules.map((item, index) => {
           return (
-            <View
-              style={styles.card}
-              key={index}
-              backgroundColor={Colors.blue80}
-            >
-              <View>
-                <Text text70 blue10>{item.dentist_schedule.dentist.name}</Text>
-                <Text text90 color={Colors.grey40}>
-                  Appointment {getStatus(item.status)}
-                </Text>
+            <Card key={index} backgroundColor={Colors.white} row padding-10>
+              <View style={styles.timeContainer}>
+                <FontAwesome5
+                  name="calendar"
+                  color="#6360DC"
+                  size={20}
+                ></FontAwesome5>
               </View>
-              <View>
-                <Text text90 color={Colors.blue10}>
-                  <FontAwesome5 name="calendar"></FontAwesome5>
-                  <Text style={{ marginLeft: 10 }}>
-                  {"  "}
-                    {getDay(item.dentist_schedule.dayOfWeek)}
+              <View row style={{ flex:1, justifyContent:'space-between', paddingLeft:5 }}>
+                <View>
+                  <Text text70 blue10>
+                    {item.dentist_schedule.dentist.name}
                   </Text>
-                </Text>
-                <Text text90 color={Colors.blue10}>
-                  <FontAwesome5 name="clock"></FontAwesome5>
-                  <Text style={{ marginLeft: 5 }}>
-                    {" "}
-                    {`${item.dentist_schedule.startTime}-${item.dentist_schedule.endTime}`}
+                  <Text text90 color={Colors.grey40}>
+                    Appointment {getStatus(item.status)}
                   </Text>
-                </Text>
+                </View>
+                <View>
+                  <Text text90 color={Colors.blue10}>
+                    <FontAwesome5 name="calendar"></FontAwesome5>
+                    <Text style={{ marginLeft: 10 }}>
+                      {"  "}
+                      {getDay(item.dentist_schedule.dayOfWeek)}
+                    </Text>
+                  </Text>
+                  <Text text90 color={Colors.blue10}>
+                    <FontAwesome5 name="clock"></FontAwesome5>
+                    <Text style={{ marginLeft: 5 }}>
+                      {" "}
+                      {`${item.dentist_schedule.startTime}-${item.dentist_schedule.endTime}`}
+                    </Text>
+                  </Text>
+                </View>
               </View>
-            </View>
+            </Card>
           );
         })
       ) : (
@@ -106,10 +113,12 @@ const styles = StyleSheet.create({
     padding: 10,
   },
 
-  card: {
-    padding: 20,
+  timeContainer: {
+    width: 50,
+    height: 50,
     borderRadius: 10,
-    flexDirection: "row",
-    justifyContent: "space-between",
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#ddd",
   },
 });

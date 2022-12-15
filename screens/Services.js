@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { ListItem, Colors, Card, Text, View } from 'react-native-ui-lib'
 import axios from 'axios'
 import Spinner from 'react-native-loading-spinner-overlay/lib'
-
+import { FontAwesome5 } from "@expo/vector-icons";
 export default function Services() {
   const [services, setServices] = useState([])
 
@@ -32,11 +32,20 @@ export default function Services() {
               style={{ marginBottom: 15 }}
               padding-10
               key={index}
+              row
             >
-              <View>
+              <View style={styles.timeContainer}>
+                <FontAwesome5
+                  name="circle"
+                  color="#6360DC"
+                  size={20}
+                ></FontAwesome5>
+              </View>
+
+              <View style={{ paddingLeft:5 }}>
                 <Text style={{ fontSize: 20 }}>{item.name}</Text>
                 <View row>
-                  <Text text90 color={Colors.red20}>
+                  <Text text90 color={Colors.blue20}>
                     Price: {item.price}
                   </Text>
                 </View>
@@ -69,5 +78,14 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 10,
+  },
+
+  timeContainer: {
+    width: 50,
+    height: 50,
+    borderRadius: 10,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#ddd",
   },
 })

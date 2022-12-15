@@ -74,6 +74,7 @@ export default function App() {
           component={DentistSchedule}
           options={{ headerTitle: "Dentist Schedule" }}
         ></Stack.Screen>
+        
       </Stack.Navigator>
     </NavigationContainer>
   );

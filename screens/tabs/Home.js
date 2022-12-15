@@ -16,32 +16,22 @@ import {
   Colors,
   TouchableOpacity,
 } from "react-native-ui-lib";
+import Item from "../../components/Item";
+import { color } from "react-native-reanimated";
 
 const width = Dimensions.get("screen").width;
 
 export default function Home({ navigation }) {
-  const [appointments, setAppointments] = useState([]);
-  const [spinner, setSpinner] = useState(false);
-
-  const isFocused = useIsFocused();
+  const [username, setUserName] = useState("User");
 
   useEffect(() => {
-    getAppointment();
-  }, [isFocused]);
+    getUser()
+  }, [
+  ]);
 
-  const getAppointment = async () => {
-    const id = await AsyncStorage.getItem("user_id");
-    const patientID = JSON.parse(id);
-
-    axios
-      .get(`${BASE_API}appointment?id=${patientID}`)
-      .then((response) => {
-        setAppointments(response.data);
-      })
-      .catch(function (error) {
-        Alert.alert("ERROR", "There was a problem");
-        console.log(error);
-      });
+  const getUser = async () => {
+    const user = await AsyncStorage.getItem("username");
+    setUserName(JSON.parse(user));
   };
 
   const deleteAppointment = (appointmentID) => {
@@ -110,139 +100,57 @@ export default function Home({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <View style={styles.header}>
-        <View style={{ flexDirection: "row" }}>
-          <TouchableOpacity onPress={() => navigation.navigate("Services")}>
-            <View style={styles.card}>
-              <FontAwesome5
-                name="list"
-                size={20}
-                color={Colors.white}
-              ></FontAwesome5>
-              <Text style={{ marginTop: 5 }} color={Colors.white}>
-                Services
-              </Text>
-            </View>
-          </TouchableOpacity>
-
-          <TouchableOpacity onPress={() => navigation.navigate("Dentists")}>
-            <View style={styles.card}>
-              <FontAwesome5
-                name="users"
-                size={20}
-                color={Colors.white}
-              ></FontAwesome5>
-              <Text style={{ marginTop: 5 }} color={Colors.white}>
-                Dentist
-              </Text>
-            </View>
-          </TouchableOpacity>
+      <View
+        style={{
+          paddingHorizontal: 15,
+          paddingTop: 20,
+          flexDirection: "row",
+          justifyContent: "space-between",
+        }}
+      >
+        <View>
+          <Text style={styles.greetings}>Welcome {username} </Text>
+          <Text style={styles.welcome}>What can we do for you?</Text>
         </View>
         <View style={{ flexDirection: "row" }}>
-          <TouchableOpacity
-            onPress={() => navigation.navigate("CreateAppointment")}
-          >
-            <View style={styles.card}>
-              <FontAwesome5
-                name="plus-circle"
-                size={20}
-                color={Colors.white}
-              ></FontAwesome5>
-              <Text style={{ marginTop: 5 }} color={Colors.white}>
-                Create
-              </Text>
-            </View>
-          </TouchableOpacity>
-
-          <TouchableOpacity onPress={() => Logout()}>
-            <View style={styles.card}>
-              <FontAwesome5
-                name="power-off"
-                size={20}
-                color={Colors.white}
-              ></FontAwesome5>
-              <Text style={{ marginTop: 5 }} color={Colors.white}>
-                Logout
-              </Text>
+          <View style={styles.profile}>
+            <FontAwesome5 name={"user"} color="white"></FontAwesome5>
+          </View>
+          <TouchableOpacity onPress={Logout}>
+            <View style={styles.logout}>
+              <FontAwesome5 name={"power-off"} color="white"></FontAwesome5>
             </View>
           </TouchableOpacity>
         </View>
       </View>
+      <View style={styles.header}>
+        <Item
+          name={"Create"}
+          icon={"plus-circle"}
+          onPress={() => navigation.navigate("CreateAppointment")}
+        />
 
-      <View style={styles.footer}>
-        <ScrollView>
-          <View style={{ padding: 10 }}>
-            <View style={styles.recent}>
-              <Text text70 blue80 style={{ marginBottom: 5 }}>
-                Recent Appointments
-              </Text>
-            </View>
-            {appointments != "" ? (
-              appointments.map((item, index) => {
-                return (
-                  <Card
-                    backgroundColor={Colors.blue80}
-                    style={{ marginBottom: 15 }}
-                    key={index}
-                  >
-                    <View padding-20>
-                      <View row style={{ justifyContent: "space-between" }}>
-                        <View>
-                          <Text text90>{item.service.name}</Text>
-                          <Text text70 $textDefault>
-                            Appointment {getStatus(item.status)}
-                          </Text>
-                        </View>
+        <Item
+          name={"Service"}
+          icon={"list"}
+          onPress={() => navigation.navigate("Services")}
+        />
 
-                        <View>
-                          <Text>
-                            <FontAwesome5 name={"calendar"}></FontAwesome5>
-                            {"  "}
-                            {getDay(item.dentist_schedule.dayOfWeek)}
-                          </Text>
-                          <Text>
-                            <FontAwesome5 name={"clock"}></FontAwesome5>
-                            {"  "}
-                            {`${item.dentist_schedule.startTime} - ${item.dentist_schedule.endTime}`}
-                          </Text>
-                        </View>
-                      </View>
+        <Item
+          name={"Dentists"}
+          icon={"users"}
+          onPress={() => navigation.navigate("Dentists")}
+        />
 
-                      <View>
-                        <View row right style={{ padding:5 }}>
-                          <Button
-                            text90
-                            link
-                            
-                            label="Delete"
-                            onPress={() => {
-                              deleteAppointment(item.id);
-                            }}
-                          />
-                        </View>
-                      </View>
-                    </View>
-                  </Card>
-                );
-              })
-            ) : (
-              <View
-                backgroundColor={Colors.yellow20}
-                style={{
-                  justifyContent: "center",
-                  alignItems: "center",
-                  padding: 20,
-                  borderRadius: 5,
-                }}
-              >
-                <Text color={Colors.white}>
-                  You haven`t created any appointment
-                </Text>
-              </View>
-            )}
-            <Spinner visible={spinner} textContent={"Please Wait..."} />
-          </View>
-        </ScrollView>
+        <Item name={"Invoice"} icon={"power-off"} onPress={() => Logout()} />
+
+        <Item
+          name={"Transactions"}
+          icon={"power-off"}
+          onPress={() => Logout()}
+        />
+
+        <Item name={"ORs"} icon={"power-off"} />
       </View>
     </View>
   );
@@ -251,20 +159,16 @@ export default function Home({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    paddingTop: 20,
   },
 
   header: {
     flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-    padding: 10,
-  },
-
-  footer: {
-    flex: 2,
-    backgroundColor: "#6360DC",
-    borderTopLeftRadius: 15,
-    borderTopRightRadius: 15,
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "space-evenly",
+    padding: 5,
+    marginTop: 30,
   },
 
   card: {
@@ -283,5 +187,37 @@ const styles = StyleSheet.create({
     borderBottomWidth: 2,
     borderBottomColor: "#fff",
     marginBottom: 10,
+  },
+
+  profile: {
+    width: 40,
+    height: 40,
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 5,
+    backgroundColor: "gray",
+    marginRight: 5,
+  },
+
+  logout: {
+    width: 40,
+    height: 40,
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 5,
+    backgroundColor: "#CE3226",
+  },
+
+  greetings: {
+    fontWeight: "700",
+    fontSize: 16,
+    color: "#6360DC",
+    textTransform:'capitalize'
+  },
+
+  welcome: {
+    fontWeight: "700",
+    fontSize: 12,
+    color: "#999",
   },
 });

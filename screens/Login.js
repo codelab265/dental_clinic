@@ -33,7 +33,9 @@ export default function Login({ navigation }) {
             try {
               await AsyncStorage.setItem('login', 'true')
               const user_id = JSON.stringify(response.data.data.id)
+              const username = JSON.stringify(response.data.data.name)
               await AsyncStorage.setItem('user_id', user_id)
+              await AsyncStorage.setItem('username', username)
             } catch (e) {
               // saving error
             }

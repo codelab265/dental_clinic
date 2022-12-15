@@ -7,6 +7,7 @@ import Home from './tabs/Home'
 import Invoice from './tabs/Invoices'
 import Transactions from './tabs/Transactions'
 import Schedules from './tabs/Schedules'
+import Appointments from './tabs/Appointments'
 
 const Tab = createBottomTabNavigator()
 
@@ -38,6 +39,7 @@ export default function HomeTab() {
               </Text>
             </View>
           ),
+          headerShown:false
         }}
       />
       
@@ -62,40 +64,20 @@ export default function HomeTab() {
         }}
       />
       <Tab.Screen
-        name="Invoices"
-        component={Invoice}
+        name="Appointments"
+        component={Appointments} 
         options={{
           tabBarIcon: ({ focused }) => (
             <View style={styles.tabIconContainer}>
               <FontAwesome5
-                name="file-invoice"
+                name="clipboard"
                 size={20}
                 style={{ color: focused ? '#6360DC' : '#000' }}
               ></FontAwesome5>
               <Text
                 style={{ color: focused ? '#6360DC' : '#000', marginTop: 5 }}
               >
-                Invoice
-              </Text>
-            </View>
-          ),
-        }}
-      />
-      <Tab.Screen
-        name="Transactions"
-        component={Transactions}
-        options={{
-          tabBarIcon: ({ focused }) => (
-            <View style={styles.tabIconContainer}>
-              <FontAwesome5
-                name="money-check"
-                size={20}
-                style={{ color: focused ? '#6360DC' : '#000' }}
-              ></FontAwesome5>
-              <Text
-                style={{ color: focused ? '#6360DC' : '#000', marginTop: 5 }}
-              >
-                Transactions
+                Appointments
               </Text>
             </View>
           ),
