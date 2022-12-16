@@ -1,4 +1,4 @@
-import { Alert, StyleSheet, TouchableOpacity,  } from "react-native";
+import { Alert, ScrollView, StyleSheet, TouchableOpacity } from "react-native";
 import React, { useEffect, useState } from "react";
 import { useIsFocused } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -79,59 +79,87 @@ export default function Appointments() {
       2: "Rejected",
     };
 
-    return statuses[status]
+    return statuses[status];
   };
 
   return (
     <View style={styles.container}>
-      <Text style={{ fontWeight: "700", fontSize: 16, color: "#6360DC" }}>
-        Appointments
-      </Text>
-      <View style={{ marginTop: 20 }}>
-        {appointments.length > 0 ? (
-          appointments.map((item, index) => {
-            return (
-              <Card backgroundColor={"white"} padding-10 key={index} row>
-                <View style={styles.timeContainer}>
-                  <FontAwesome5
-                    name="calendar"
-                    color="#6360DC"
-                    size={20}
-                  ></FontAwesome5>
-                </View>
-                <View style={{ flex:1, justifyContent:"space-between", paddingLeft:5 }} row>
-                  <View>
-                    <Text text70 color={Colors.blue10}>{item.service.name}</Text>
-                    <Text color={Colors.green10}>{getStatus(item.status)}</Text>
+      <ScrollView>
+        <Text style={{ fontWeight: "700", fontSize: 16, color: "#6360DC" }}>
+          Appointments
+        </Text>
+        <View style={{ marginTop: 20 }}>
+          {appointments.length > 0 ? (
+            appointments.map((item, index) => {
+              return (
+                <Card backgroundColor={"white"} padding-10 key={index} row>
+                  <View style={styles.timeContainer}>
+                    <FontAwesome5
+                      name="calendar"
+                      color="#6360DC"
+                      size={20}
+                    ></FontAwesome5>
                   </View>
-                  <View>
-                    <Text>
-                      <FontAwesome5 name={'calendar'} color="#6360DC"></FontAwesome5>
-                      {"  "}
-                      {getDay(item.dentist_schedule.dayOfWeek)}
-                    </Text>
-                    <Text>
-                      <FontAwesome5 name={'clock'} color="#6360DC"></FontAwesome5>
-                      {"  "}
-                      {`${item.dentist_schedule.startTime} - ${item.dentist_schedule.endTime}`}
-                    </Text>
+                  <View
+                    style={{
+                      flex: 1,
+                      justifyContent: "space-between",
+                      paddingLeft: 5,
+                    }}
+                    row
+                  >
+                    <View>
+                      <Text text70 color={Colors.blue10}>
+                        {item.service.name}
+                      </Text>
+                      <Text color={Colors.green10}>
+                        {getStatus(item.status)}
+                      </Text>
+                    </View>
+                    <View>
+                      <Text>
+                        <FontAwesome5
+                          name={"calendar"}
+                          color="#6360DC"
+                        ></FontAwesome5>
+                        {"  "}
+                        {getDay(item.dentist_schedule.dayOfWeek)}
+                      </Text>
+                      <Text>
+                        <FontAwesome5
+                          name={"clock"}
+                          color="#6360DC"
+                        ></FontAwesome5>
+                        {"  "}
+                        {`${item.dentist_schedule.startTime} - ${item.dentist_schedule.endTime}`}
+                      </Text>
 
-                    <TouchableOpacity onPress={()=>deleteAppointment(item.id)}>
-                      <View backgroundColor={Colors.red10} style={styles.deleteButton}>
-                        <Text color={Colors.white}>Delete</Text>
-                      </View>
-                    </TouchableOpacity>
+                      <TouchableOpacity
+                        onPress={() => deleteAppointment(item.id)}
+                      >
+                        <View
+                          backgroundColor={Colors.red10}
+                          style={styles.deleteButton}
+                        >
+                          <Text color={Colors.white}>Delete</Text>
+                        </View>
+                      </TouchableOpacity>
+                    </View>
                   </View>
-                </View>
-              </Card>
-            );
-          })
-        ) : (
-          <Card backgroundColor={"white"} padding-20 style={{ justifyContent:'center', alignItems:'center' }}>
-            <Text>No appointments created yet!</Text>
-          </Card>
-        )}
-      </View>
+                </Card>
+              );
+            })
+          ) : (
+            <Card
+              backgroundColor={"white"}
+              padding-20
+              style={{ justifyContent: "center", alignItems: "center" }}
+            >
+              <Text>No appointments created yet!</Text>
+            </Card>
+          )}
+        </View>
+      </ScrollView>
     </View>
   );
 }
@@ -151,13 +179,11 @@ const styles = StyleSheet.create({
     backgroundColor: "#ddd",
   },
 
-  deleteButton:{
-   
-    marginTop:10,
-    borderRadius:5,
-    padding:5,
-    justifyContent:'center',
-    alignItems:'center'
-
-  }
+  deleteButton: {
+    marginTop: 10,
+    borderRadius: 5,
+    padding: 5,
+    justifyContent: "center",
+    alignItems: "center",
+  },
 });

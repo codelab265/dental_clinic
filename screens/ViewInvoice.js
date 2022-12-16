@@ -1,16 +1,14 @@
-import { StyleSheet, Image } from 'react-native'
+import { StyleSheet, Image, ScrollView } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { View, Text, Colors } from 'react-native-ui-lib'
 import axios from 'axios'
 import Spinner from 'react-native-loading-spinner-overlay/lib'
 
 export default function ViewInvoice({ route }) {
-  const [invoice, setInvoice] = useState([])
-  const [spinner, setSpinner] = useState(false)
-
-  useEffect(() => {
-    getDetail()
-  }, [])
+  const invoice = route.params.items
+  
+  console.log(invoice);
+  
 
   const getSum = (array) => {
     var sum = 0
@@ -21,20 +19,6 @@ export default function ViewInvoice({ route }) {
     return sum.toFixed(2)
   }
 
-  const getDetail = () => {
-    var id = route.params.id
-    setSpinner(true)
-    axios
-      .get(`${BASE_API}invoice/details?id=${id}`)
-      .then((response) => {
-        setSpinner(false)
-        setInvoice(response.data)
-      })
-      .catch((error) => {
-        setSpinner(false)
-        console.log(error)
-      })
-  }
   return (
     <View style={styles.container} backgroundColor={Colors.white}>
       <View style={{ justifyContent: 'space-between', flexDirection: 'row' }}>
@@ -64,6 +48,7 @@ export default function ViewInvoice({ route }) {
           <Text color={Colors.blue80}>AMOUNT</Text>
         </View>
       </View>
+      <ScrollView>
       {invoice.map((item, index) => {
         return (
           <View
@@ -86,6 +71,8 @@ export default function ViewInvoice({ route }) {
           </View>
         )
       })}
+      
+      </ScrollView>
       <View
         backgroundColor={Colors.blue80}
         row
@@ -103,7 +90,7 @@ export default function ViewInvoice({ route }) {
         </View>
       </View>
 
-      <Spinner visible={spinner} textContent={'Please Wait...'} />
+      <Spinner visible={false} textContent={'Please Wait...'} />
     </View>
   )
 }

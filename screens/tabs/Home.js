@@ -142,15 +142,15 @@ export default function Home({ navigation }) {
           onPress={() => navigation.navigate("Dentists")}
         />
 
-        <Item name={"Invoice"} icon={"power-off"} onPress={() => Logout()} />
+        <Item name={"Invoice"} icon={"file-invoice"} onPress={() => navigation.navigate("Invoice")} />
 
         <Item
           name={"Transactions"}
-          icon={"power-off"}
-          onPress={() => Logout()}
+          icon={"money-check"}
+          onPress={() => navigation.navigate("Transactions")}
         />
 
-        <Item name={"ORs"} icon={"power-off"} />
+        <Item name={"ORs"} icon={"receipt"} onPress={()=>navigation.navigate("OfficialReceipt")} />
       </View>
     </View>
   );

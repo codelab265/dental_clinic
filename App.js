@@ -14,6 +14,10 @@ import ViewAppointment from "./screens/ViewAppointment";
 import EditAppointment from "./screens/EditAppointment";
 import ViewInvoice from "./screens/ViewInvoice";
 import DentistSchedule from "./screens/DentistSchedule";
+import Invoice from "./screens/Invoice";
+import Transactions from "./screens/Transactions";
+import OfficialReceipt from "./screens/OfficialReceipt";
+import ViewOfficialReceipt from "./screens/ViewOfficialReceipt";
 
 Services;
 
@@ -73,6 +77,26 @@ export default function App() {
           name="DentistSchedule"
           component={DentistSchedule}
           options={{ headerTitle: "Dentist Schedule" }}
+        ></Stack.Screen>
+        <Stack.Screen
+          name="Invoice"
+          component={Invoice}
+          options={{ headerTitle: "Invoices" }}
+        ></Stack.Screen>
+        <Stack.Screen
+          name="Transactions"
+          component={Transactions}
+          options={{ headerTitle: "Transactions" }}
+        ></Stack.Screen>
+        <Stack.Screen
+          name="OfficialReceipt"
+          component={OfficialReceipt}
+          options={{ headerTitle: "Official Receipts" }}
+        ></Stack.Screen>
+        <Stack.Screen
+          name="ViewOfficialReceipt"
+          component={ViewOfficialReceipt}
+          options={{ headerTitle: "Official Receipts" }}
         ></Stack.Screen>
         
       </Stack.Navigator>

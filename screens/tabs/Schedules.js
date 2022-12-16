@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import { ScrollView, StyleSheet } from "react-native";
 import React, { useEffect, useState } from "react";
 import { Card, Colors, Text, View } from "react-native-ui-lib";
 import moment from "moment";
@@ -52,6 +52,10 @@ export default function Schedules() {
 
   return (
     <View style={styles.container}>
+      <ScrollView>
+      <Text style={{ fontWeight: "700", fontSize: 16, color: "#6360DC", marginBottom:20 }}>
+        Schedules
+      </Text>
       {schedules != "" ? (
         schedules.map((item, index) => {
           return (
@@ -103,6 +107,7 @@ export default function Schedules() {
           </Text>
         </View>
       )}
+      </ScrollView>
     </View>
   );
 }
